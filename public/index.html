@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Когорта · Реестр и аналитика</title>
+  <link href="/style.css" rel="stylesheet">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true">✳</span> Когорта</div>
+    <div class="account" id="account" hidden><span id="identity"></span><button id="logout" class="quiet">Выйти</button></div>
+  </header>
+  <main>
+    <section id="auth" class="auth">
+      <div class="intro">
+        <p class="eyebrow">ДЕМОНСТРАЦИОННЫЙ РЕЕСТР</p>
+        <h1>Клинические данные<br>и аналитика когорт</h1>
+        <p>Карточки пациентов, сравнение групп и динамика показателей на синтетических данных.</p>
+        <div class="motif" aria-hidden="true"></div>
+      </div>
+      <div class="sign">
+        <div class="tabs" aria-label="Доступ к реестру">
+          <button type="button" class="active" id="loginMode">Вход</button>
+          <button type="button" id="registerMode">Регистрация</button>
+        </div>
+        <h2 id="authTitle">Вход в реестр</h2>
+        <form id="authForm">
+          <label>Логин<input name="login" required minlength="3" maxlength="48" autocomplete="username"></label>
+          <label>Пароль<input name="password" type="password" required minlength="12" maxlength="128" autocomplete="current-password"></label>
+          <p id="registerHint" class="muted" hidden>Новый аккаунт получает роль исследователя.</p>
+          <button class="primary" id="authSubmit">Войти</button>
+          <p id="authError" class="error" role="alert"></p>
+        </form>
+      </div>
+    </section>
+    <section id="workspace" hidden>
+      <nav class="tabs" id="navigation" aria-label="Разделы"></nav>
+      <div class="pagehead">
+        <div><p class="eyebrow">СИНТЕТИЧЕСКИЕ ДАННЫЕ</p><h1 id="pageTitle"></h1><p id="description" class="muted"></p></div>
+        <div class="actions"><button id="export" hidden>Скачать CSV</button><button id="add" class="primary" hidden>Добавить пациента</button></div>
+      </div>
+      <p class="error" id="workspaceError" role="alert"></p>
+      <div id="registry">
+        <form class="filters card" id="filters">
+          <label class="search">Поиск<input name="q" type="search" placeholder="Имя или номер"></label>
+          <label>Группа<select name="group"></select></label>
+          <label>Диагноз<select name="diagnosis"></select></label>
+          <label>Статус<select name="status"></select></label>
+          <label>Пол<select name="sex"></select></label>
+          <label>Возраст от<input name="min" type="number" min="0" max="120" placeholder="0"></label>
+          <label>Возраст до<input name="max" type="number" min="0" max="120" placeholder="120"></label>
+          <label>Включён с<input name="from" type="date"></label>
+          <label>Включён по<input name="to" type="date"></label>
+          <button type="reset">Сбросить</button>
+        </form>
+        <div id="analytics" hidden></div>
+        <section class="card listing">
+          <div class="listhead"><h2>Пациенты</h2><span id="count" aria-live="polite"></span></div>
+          <div class="scroll"><table>
+            <thead><tr><th>Пациент</th><th>Возраст</th><th>Диагноз</th><th>Группа</th><th>Статус</th><th>Дата включения</th></tr></thead>
+            <tbody id="patients"></tbody>
+          </table></div>
+          <div class="pagination"><button id="prev">Назад</button><span id="page"></span><button id="next">Далее</button></div>
+        </section>
+      </div>
+      <section id="users" class="card listing" hidden><div class="scroll"><table><thead><tr><th>Логин</th><th>Роль</th></tr></thead><tbody id="userRows"></tbody></table></div></section>
+    </section>
+  </main>
+  <dialog id="patientDialog">
+    <div class="listhead"><h2 id="detailTitle"></h2><button id="close" type="button" aria-label="Закрыть">✕</button></div>
+    <form id="patientForm">
+      <fieldset id="patientFields">
+        <label class="wide">Имя или идентификатор<input name="name" required maxlength="100"></label>
+        <label>Возраст<input name="age" type="number" required min="0" max="120"></label>
+        <label>Пол<select name="sex"></select></label>
+        <label>Диагноз<select name="diagnosis"></select></label>
+        <label>Группа<select name="group"></select></label>
+        <label>Статус<select name="status"></select></label>
+        <label>Дата включения<input name="date" type="date" required></label>
+        <label>Исходное САД, мм рт. ст.<input name="baseline" type="number" required min="40" max="300"></label>
+        <label>Повторное САД, мм рт. ст.<input name="followup" type="number" min="40" max="300" placeholder="Нет замера"></label>
+      </fieldset>
+      <p id="detailError" class="error" role="alert"></p>
+      <div class="actions" id="patientActions"><button type="button" id="remove" class="danger">Удалить</button><button class="primary">Сохранить</button></div>
+    </form>
+  </dialog>
+  <footer>Когорта · Демонстрационный проект</footer>
+</body>
+</html>
